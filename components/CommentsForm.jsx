@@ -1,5 +1,5 @@
-import { comment } from "postcss-selector-parser";
 import React, { useRef, useState, useEffect } from "react";
+import { submitComment } from "../services";
 
 const CommentsForm = ({ slug }) => {
   const [error, setError] = useState(false);
@@ -9,6 +9,11 @@ const CommentsForm = ({ slug }) => {
   const nameEl = useRef();
   const emailEl = useRef();
   const storeDataEl = useRef();
+
+  useEffect(() => {
+    nameEl.current.value = window.localStorage.getItem('name');
+    emailEl.current.value = window.localStorage.getItem('email');
+  })
 
   const handleCommentSubmission = () => {
     setError(false);
@@ -30,20 +35,26 @@ const CommentsForm = ({ slug }) => {
       slug,
     };
 
-    if(storeData) {
-      localStorage.setItem('name', name);
-      localStorage.setItem('email', email);
+    if (storeData) {
+      localStorage.setItem("name", name);
+      localStorage.setItem("email", email);
     } else {
-      localStorage.removeItem('name', name);
-      localStorage.removeItem('email', email);
+      localStorage.removeItem("name", name);
+      localStorage.removeItem("email", email);
     }
 
+    submitComment(commentObj).then((res) => {
+      setshowSuccessMessage(true);
+      setTimeout(() => {
+        setshowSuccessMessage(false);
+      }, 3000);
+    });
   };
 
   return (
     <div className="bg-white shadow-lg rounded-lg p-8 pb-12 mb-8">
       <h3 className="text-xl mb-8 font-semibold border-b pb-4">
-        Comments Form
+        Leave a Comment
       </h3>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
         <textarea
@@ -80,7 +91,10 @@ const CommentsForm = ({ slug }) => {
             name="storeData"
             value="true"
           />
-          <label className="text-gray-500 cursor-pointer ml-2" htmlFor="storeData" >
+          <label
+            className="text-gray-500 cursor-pointer ml-2"
+            htmlFor="storeData"
+          >
             Save my e-mail and name for the next time I comment.
           </label>
         </div>
