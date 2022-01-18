@@ -1,3 +1,4 @@
+import { comment } from "postcss-selector-parser";
 import React, { useRef, useState, useEffect } from "react";
 
 const CommentsForm = ({ slug }) => {
@@ -6,15 +7,45 @@ const CommentsForm = ({ slug }) => {
   const [showSuccessMessage, setshowSuccessMessage] = useState(false);
   const commentEl = useRef();
   const nameEl = useRef();
-  const emailEL = useRef();
+  const emailEl = useRef();
   const storeDataEl = useRef();
+
+  const handleCommentSubmission = () => {
+    setError(false);
+
+    const { value: comment } = commentEl.current;
+    const { value: name } = nameEl.current;
+    const { value: email } = emailEl.current;
+    const { checked: storeData } = storeDataEl.current;
+
+    if (!comment || !name) {
+      setError(true);
+      return;
+    }
+
+    const commentObj = {
+      name,
+      email,
+      comment,
+      slug,
+    };
+
+    if(storeData) {
+      localStorage.setItem('name', name);
+      localStorage.setItem('email', email);
+    } else {
+      localStorage.removeItem('name', name);
+      localStorage.removeItem('email', email);
+    }
+
+  };
 
   return (
     <div className="bg-white shadow-lg rounded-lg p-8 pb-12 mb-8">
       <h3 className="text-xl mb-8 font-semibold border-b pb-4">
         Comments Form
       </h3>
-      <div className="grid grid-cols-1 gap-4 mb-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
         <textarea
           ref={commentEl}
           className="p-4 outline-none w-full rounded-lg focus:ring-2 focus:ring-gray-200 bg-gray-100 text-gray-700"
@@ -32,13 +63,44 @@ const CommentsForm = ({ slug }) => {
         />
       </div>
       <div className="grid grid-cols-1 gap-4 mb-4">
-      <input
+        <input
           type="text"
-          ref={emailEL}
+          ref={emailEl}
           className="p-4 px-4 outline-none w-full rounded-lg focus:ring-2 focus:ring-gray-200 bg-gray-100 text-gray-700"
           placeholder="Email"
           name="email"
         />
+      </div>
+      <div className="grid grid-cols-1 gap-4 mb-4">
+        <div>
+          <input
+            ref={storeDataEl}
+            type="checkbox"
+            id="storeDate"
+            name="storeData"
+            value="true"
+          />
+          <label className="text-gray-500 cursor-pointer ml-2" htmlFor="storeData" >
+            Save my e-mail and name for the next time I comment.
+          </label>
+        </div>
+      </div>
+      {error && (
+        <p className="text-xs text-red-500"> Comment and Name are required.</p>
+      )}
+      <div className="mt-8">
+        <button
+          type="button"
+          onClick={handleCommentSubmission}
+          className="transition duration-500 ease hover:bg-indingo-900 inline-block bg-pink-600 text-lg rounded-full text-white px-8 py-3 cursor-pointer"
+        >
+          Post Comment
+        </button>
+        {showSuccessMessage && (
+          <span className="text-xl float-right font-semibold mt-3 text-green-500">
+            Comment submitted for review
+          </span>
+        )}
       </div>
     </div>
   );
