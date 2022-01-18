@@ -34,7 +34,7 @@ const CommentsForm = ({ slug }) => {
       comment,
       slug,
     };
-
+    
     if (storeData) {
       window.localStorage.setItem("name", name);
       window.localStorage.setItem("email", email);
