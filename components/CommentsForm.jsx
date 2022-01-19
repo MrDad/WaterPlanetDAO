@@ -4,7 +4,7 @@ import { submitComment } from "../services";
 const CommentsForm = ({ slug }) => {
   const [error, setError] = useState(false);
   const [localStorage, setlocalStorage] = useState(null);
-  const [showSuccessMessage, setshowSuccessMessage] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const commentEl = useRef();
   const nameEl = useRef();
   const emailEl = useRef();
@@ -44,9 +44,9 @@ const CommentsForm = ({ slug }) => {
     }
 
     submitComment(commentObj).then((res) => {
-      setshowSuccessMessage(true);
+      setShowSuccessMessage(true);
       setTimeout(() => {
-        setshowSuccessMessage(false);
+        setShowSuccessMessage(false);
       }, 3000);
     });
   };
