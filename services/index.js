@@ -162,3 +162,7 @@ export const getComments = async (slug) => {
 
   return result.comments;
 }
+
+export const getFeaturedPosts = async () {
+
+}
