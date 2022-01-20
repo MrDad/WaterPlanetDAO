@@ -1,5 +1,5 @@
-import { useRouter, asPath } from 'next/router';
-import { getCategories, getCategoryPost } from '../../services';
+import { useRouter } from 'next/router';
+import { getCategories, getCategoryPost } from '../../services/services';
 import { PostCard, Categories, Loader } from '../../components';
 
 const CategoryPost = ({ posts }) => {
