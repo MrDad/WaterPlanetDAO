@@ -6,9 +6,9 @@ import { FeaturedPosts } from "../sections";
 export default function Home({ posts }) {
   return (
     <div className="container mx-auto px-10 mb-8">
-      <Head>Í
+      <Head>
         <title>Water Planet DAO</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="../public/favicon.ico?2" />
       </Head>
       <FeaturedPosts />
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
