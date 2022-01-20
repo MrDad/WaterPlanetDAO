@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/Link";
-import { getCategories } from "../services";
+import { getCategories } from "../services/services";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);

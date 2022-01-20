@@ -34,7 +34,7 @@ export const getPosts = async () => {
     }
   `;
 
-  const result = await request(graphqlAPI, query);
+  const result = await request(new URL(graphqlAPI), query);
 
   return result.postsConnection.edges;
 };
@@ -49,7 +49,7 @@ export const getCategories = async () => {
     }
   `;
 
-  const result = await request(graphqlAPI, query);
+  const result = await request(new URL(graphqlAPI), query);
 
   return result.categories;
 };
@@ -83,7 +83,7 @@ export const getPostDetails = async (slug) => {
     }
   `;
 
-  const result = await request(graphqlAPI, query, { slug });
+  const result = await request(new URL(graphqlAPI), query, { slug });
 
   return result.post;
 };
@@ -107,7 +107,7 @@ export const getSimilarPosts = async (categories, slug) => {
       }
     }
   `;
-  const result = await request(graphqlAPI, query, { slug, categories });
+  const result = await request(new URL(graphqlAPI), query, { slug, categories });
 
   return result.posts;
 };
@@ -142,7 +142,7 @@ export const getAdjacentPosts = async (createdAt, slug) => {
     }
   `;
 
-  const result = await request(graphqlAPI, query, { slug, createdAt });
+  const result = await request(new URL(graphqlAPI), query, { slug, createdAt });
 
   return { next: result.next[0], previous: result.previous[0] };
 };
@@ -179,7 +179,7 @@ export const getCategoryPost = async (slug) => {
     }
   `;
 
-  const result = await request(graphqlAPI, query, { slug });
+  const result = await request(new URL(graphqlAPI), query, { slug });
 
   return result.postsConnection.edges;
 };
@@ -204,13 +204,13 @@ export const getFeaturedPosts = async () => {
     }   
   `;
 
-  const result = await request(graphqlAPI, query);
+  const result = await request(new URL(graphqlAPI), query);
 
   return result.posts;
 };
 
 export const submitComment = async (obj) => {
-  const result = await fetch("/api/comments", {
+  const result = await fetch("./comments.js", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -232,7 +232,7 @@ export const getComments = async (slug) => {
     }
   `;
 
-  const result = await request(graphqlAPI, query, { slug });
+  const result = await request(new URL(graphqlAPI), query, { slug });
 
   return result.comments;
 };
@@ -253,7 +253,7 @@ export const getRecentPosts = async () => {
       }
     }
   `;
-  const result = await request(graphqlAPI, query);
+  const result = await request(new URL(graphqlAPI), query);
 
   return result.posts;
 };
